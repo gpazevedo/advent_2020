@@ -5,7 +5,6 @@ import java.io.FileReader
 
 fun main() {
     val path = "./src/main/kotlin/advent_2020/day_02_passwords/input.txt"
-//    val path = "./src/main/resources/input.txt"
 
     val lines1 = BufferedReader(FileReader(path)).lineSequence()
     val count1 = lines1.fold(0) { count, line ->
