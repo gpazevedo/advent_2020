@@ -34,23 +34,15 @@ object Expense {
     fun matching3(lines: Iterator<String>, sumUp: Int): Set<Int> {
         val expenses = mutableSetOf<Int>()
 
-        fun complementar(sumUp: Int): Set<Int> {
-
-            expenses.forEach {
-                val complement = sumUp - it
-                if (expenses.contains(complement))
-                    return setOf(it, complement)
-            }
-            return emptySet()
-        }
-
         while (lines.hasNext()) {
             val current = lines.next().toInt()
-            val complement = sumUp - current
+            val missing = sumUp - current
 
-            val set = complementar(complement)
-            if (set.isNotEmpty())
-                return setOf (current) + set
+            val complement = expenses.firstOrNull() {
+                expenses.contains(missing - it)}
+
+            if (complement != null)
+                return setOf(current, missing - complement, complement)
 
             expenses.add(current)
         }
