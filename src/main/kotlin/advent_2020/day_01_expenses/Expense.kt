@@ -8,43 +8,42 @@ fun main() {
 
     val path = "./src/main/kotlin/advent_2020/day_01_expenses/input.txt"
 
-    val seq2 = BufferedReader(FileReader(path)).lineSequence().iterator()
+    val seq2 = BufferedReader(FileReader(path)).lineSequence()
     println("2 components: ${multiply(Expense.matching2(seq2, 2020))}")
 
-    val seq3 = BufferedReader(FileReader(path)).lineSequence().iterator()
+    val seq3 = BufferedReader(FileReader(path)).lineSequence()
     println("3 components: ${multiply(Expense.matching3(seq3, 2020))}")
 }
 
 object Expense {
-    fun matching2(lines: Iterator<String>, sumUp: Int): Set<Int> {
+    fun matching2(lines: Sequence<String>, sumUp: Int): Set<Int> {
         val expenses = mutableSetOf<Int>()
 
-        while (lines.hasNext()) {
-            val current = lines.next().toInt()
-            val complement = sumUp - current
+        val found = lines.firstOrNull() { line ->
+            val current = line.toInt()
+            val found = expenses.contains(sumUp - current)
+            if (! found) expenses.add(current)
+            found
+        }?.toInt()
 
-            if (expenses.contains(complement))
-                return setOf(complement, current)
-
-            expenses.add(current)
-        }
-        return emptySet()
+        return if (found == null) emptySet() else setOf(sumUp - found, found)
     }
 
-    fun matching3(lines: Iterator<String>, sumUp: Int): Set<Int> {
+    fun matching3(lines: Sequence<String>, sumUp: Int): Set<Int> {
         val expenses = mutableSetOf<Int>()
 
-        while (lines.hasNext()) {
-            val current = lines.next().toInt()
+        lines.firstOrNull() { line ->
+            val current = line.toInt()
             val missing = sumUp - current
 
             val complement = expenses.firstOrNull() {
                 expenses.contains(missing - it)}
 
-            if (complement != null)
-                return setOf(current, missing - complement, complement)
-
-            expenses.add(current)
+            if (complement == null) {
+                expenses.add(current)
+                false
+            }
+            else return setOf(current, missing - complement, complement)
         }
         return emptySet()
     }
