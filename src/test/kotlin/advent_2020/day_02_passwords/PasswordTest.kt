@@ -18,4 +18,10 @@ class PasswordTest : FreeSpec({
         Password.from("2-9 c: cbccccccc").isValid() shouldBe true
     }
 
+    "New Validation" {
+        Password.from("1-3 a: abcde").isValid2() shouldBe true
+        Password.from("1-3 b: cdefg").isValid2() shouldBe false
+        Password.from("2-9 c: ccccccccc").isValid2() shouldBe false
+        Password.from("2-9 c: cbccccccc").isValid2() shouldBe true
+    }
 })

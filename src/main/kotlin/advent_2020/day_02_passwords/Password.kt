@@ -12,6 +12,12 @@ fun main() {
         count + if (Password.from(line).isValid()) 1 else 0
     }
     println("Part 1: Original Validator: $count1")
+
+    val lines2 = BufferedReader(FileReader(path)).lineSequence()
+    val count2 = lines2.fold(0) { count, line ->
+        count + if (Password.from(line).isValid2()) 1 else 0
+    }
+    println("Part 2: New Validator: $count2")
 }
 
 data class Password(val first: Int, val second: Int, val delimeter: Char, val password: String) {
@@ -28,6 +34,11 @@ data class Password(val first: Int, val second: Int, val delimeter: Char, val pa
     fun isValid(): Boolean {
         val copies = password.split(delimeter).size -1
         return copies in first..second
+    }
+
+    fun isValid2(): Boolean {
+        val chars = password.toCharArray()
+        return (chars[first -1] == delimeter) xor (chars[second -1] == delimeter)
     }
 }
 
