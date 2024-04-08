@@ -1,0 +1,12 @@
+# More information at
+# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+
+[versions]
+kotest = "5.8.0"
+
+[libraries]
+kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
+kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
+
+[plugins]
+jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.23" }
